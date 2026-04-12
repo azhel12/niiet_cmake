@@ -9,6 +9,10 @@ niiet_fetch_plib(K1921)
 find_package(CMSIS COMPONENTS K1921VG015 REQUIRED)
 find_package(PLIB COMPONENTS K1921VG015 REQUIRED)
 
+target_compile_options(niiet_k1921vg015_plib015 PRIVATE
+    -include "${CMAKE_CURRENT_SOURCE_DIR}/plib_compat/nop.h"
+)
+
 add_executable(plib_blink src/main.c)
 
 target_link_libraries(plib_blink PRIVATE
