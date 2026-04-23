@@ -25,6 +25,7 @@ function(niiet_k1921_ensure_cpuflags)
             -fno-builtin
         )
         target_compile_definitions(niiet_k1921vg015_cpuflags INTERFACE
+            K1921VG015
             HSECLK_VAL=16000000
             RETARGET
             SYSCLK_PLL
