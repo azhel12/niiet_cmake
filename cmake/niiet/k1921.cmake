@@ -26,11 +26,6 @@ function(niiet_k1921_ensure_cpuflags)
         )
         target_compile_definitions(niiet_k1921vg015_cpuflags INTERFACE
             K1921VG015
-            HSECLK_VAL=16000000
-            RETARGET
-            SYSCLK_PLL
-            CKO_PLL0
-            USE_LIBC
         )
         target_link_options(niiet_k1921vg015_cpuflags INTERFACE
             -march=rv32imfc_zicsr
