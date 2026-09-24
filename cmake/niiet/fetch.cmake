@@ -1,12 +1,18 @@
 include(FetchContent)
 
+# NIIET publishes the SDKs as a bare master branch (no tags or releases), so each
+# one is pinned to a commit the examples were built against. Bump a hash on purpose
+# after checking the build. Shallow clones cannot fetch an arbitrary commit, hence
+# GIT_SHALLOW FALSE. k1921vg5t_sdk stays before 444e7fe, which does not compile
+# (SystemCoreClockUpdate uses undeclared ndiv/rdiv/div1a/div1b).
+
 # Umbrella SDK (K1921VG015 platform, plib015, middleware, templates, tools/OpenOCD, SVD).
 # See: https://gitflic.ru/project/niiet/niiet_riscv_sdk
 FetchContent_Declare(
     niiet_riscv_sdk
     GIT_REPOSITORY https://gitflic.ru/project/niiet/niiet_riscv_sdk.git
-    GIT_TAG        master
-    GIT_SHALLOW    TRUE
+    GIT_TAG        5a8884512d3bc52c0a7aff69c03e64238b93f99b
+    GIT_SHALLOW    FALSE
 )
 
 # Per-chip SDKs for the SCR4 line (separate repositories, one per device).
@@ -14,15 +20,15 @@ FetchContent_Declare(
 FetchContent_Declare(
     k1921vg5t_sdk
     GIT_REPOSITORY https://gitflic.ru/project/niiet/k1921vg5t_sdk.git
-    GIT_TAG        master
-    GIT_SHALLOW    TRUE
+    GIT_TAG        4def22102a90c9b7d108dc1eb245c79074539f64
+    GIT_SHALLOW    FALSE
 )
 
 FetchContent_Declare(
     k1921vg7t_sdk
     GIT_REPOSITORY https://gitflic.ru/project/niiet/k1921vg7t_sdk.git
-    GIT_TAG        master
-    GIT_SHALLOW    TRUE
+    GIT_TAG        49533ab559d747d80c9f15b6b55cf5ce66c33b55
+    GIT_SHALLOW    FALSE
 )
 
 function(_niiet_fetch_riscv_sdk_once)
