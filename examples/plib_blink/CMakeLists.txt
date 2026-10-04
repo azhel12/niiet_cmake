@@ -9,6 +9,13 @@ niiet_fetch_plib(K1921)
 find_package(CMSIS COMPONENTS K1921VG015 REQUIRED)
 find_package(PLIB COMPONENTS K1921VG015 REQUIRED)
 
+# IRIS UNO-VG015: кварц 12 МГц, SystemInit поднимает PLL0 до 50 МГц
+target_compile_definitions(cmsis_k1921vg015 PRIVATE
+    HSECLK_VAL=12000000
+    SYSCLK_PLL
+    CKO_NONE
+)
+
 target_compile_options(niiet_k1921vg015_plib015 PRIVATE
     -include "${CMAKE_CURRENT_SOURCE_DIR}/plib_compat/nop.h"
 )

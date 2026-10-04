@@ -26,6 +26,13 @@ niiet_fetch_cmsis(K1921)
 # Найти CMSIS
 find_package(CMSIS COMPONENTS K1921VG015 REQUIRED)
 
+# Тактирование для SystemInit из SDK — это свойство платы, задаётся в проекте
+target_compile_definitions(cmsis_k1921vg015 PRIVATE
+    HSECLK_VAL=12000000   # частота кварца
+    SYSCLK_PLL            # источник SYSCLK: SYSCLK_PLL | SYSCLK_HSE | SYSCLK_HSI | SYSCLK_LSI
+    CKO_NONE              # без вывода частоты на CKO
+)
+
 add_executable(prj_name src/main.c)
 
 target_link_libraries(prj_name PRIVATE
@@ -59,10 +66,14 @@ niiet_generate_binary_file(prj_name)
 
 В каталоге `**examples/**`:
 
-- `examples/cmsis_blink` — моргание PC10 через регистры  
-- `examples/plib_blink` — то же через PLIB015
+- `examples/cmsis_blink` — K1921VG015: моргание PC10 через регистры
+- `examples/plib_blink` — K1921VG015: то же через PLIB015
+- `examples/cmsis_blink_vg5t` — K1921VG5T: моргание PA12 через регистры
+- `examples/zhele_blink` — моргание на [Zhele](https://github.com/azhel12/Zhele): один `main.cpp`, две прошивки (`zhele_blink_vg015`, `zhele_blink_vg5t`). Zhele скачивается с GitHub, локальную копию можно подставить через `-DZHELE_PATH=...`
 
-Проверено на отладочной плате [Ирис UNO К1921ВГ015](https://gitflic.ru/project/mikhvad/irisuno-vg015).
+Платы: K1921VG015 — [Ирис UNO К1921ВГ015](https://gitflic.ru/project/mikhvad/irisuno-vg015) (кварц 12 МГц, светодиод PC10; `cmsis_blink` и `plib_blink` проверены на ней), K1921VG5T — NIIET-MINI-K1921VG5T (кварц 16 МГц, светодиод PA12, горит низким уровнем).
+
+Примера на PLIB для K1921VG5T нет: `plib5t` из SDK не компилируется с заголовком `K1921VG5T.h` из того же SDK (расходятся имена регистров в `plib5t_rcu.h`, `plib5t_pwm.h`, `plib5t_can.h`).
 
 Сборка:
 
